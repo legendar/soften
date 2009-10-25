@@ -1,0 +1,1 @@
+<div align="center"><h4><?=lng('Sorry, the requested page (\1) was not found!', $_REQUEST["uri"]);?></h4></div>

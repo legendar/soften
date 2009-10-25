@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sitemap>
+    <secure level="guest">
+        <match pattern="/(home/)?">
+            <template var="content" src="home.tpl.php" />
+            <block name="endLoadPage" />
+        </match>
+    </secure>
+</sitemap>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="windows-1251"?>
+<sitemap>
+
+    <block id="endLoadPage">
+        <template src="index.tpl.php" />
+        <end />
+    </block>
+    
+    
+    <secure level="admin">
+        <match pattern="/admin/.*/">
+            <include src="/admin/*.xml"/>
+        </match>
+    </secure>
+    
+    <include src="/addons/*.xml"/>
+    
+</sitemap>
+

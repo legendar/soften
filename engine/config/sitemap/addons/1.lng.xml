@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sitemap>
+    
+    <dir var="{SITEPATH}"/>
+    <data src="languages/{SITE_LNG}/*.lng.php"/>
+    <dir var="{ENGINEPATH}"/>
+    <data src="languages/{SITE_LNG}/*.lng.php"/>
+
+</sitemap>

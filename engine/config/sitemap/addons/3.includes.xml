@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sitemap>
+    
+    <data src="includes/*.php"/>
+    <dir var="{SITEPATH}"/>
+    <data src="includes/*.php"/>
+    <dir var="{ENGINEPATH}"/>
+
+</sitemap>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sitemap>
+
+    <match pattern="/((css)|(style)|(stylesheet))/">
+	    <file var="css[]" dir="css" src="*.css"/>
+        <dir var="{SITEPATH}"/>
+        <file var="css[]" dir="css" src="*.css"/>
+        <dir var="{ENGINEPATH}"/>
+	    <template src="css.tpl.php" />
+	    <end/>
+	</match>
+    
+</sitemap>
