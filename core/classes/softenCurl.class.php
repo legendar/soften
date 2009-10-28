@@ -86,8 +86,8 @@ class softenCurl {
     
     private function _makeData($data, $url = null) {
         if($url !== null) {
-            $urlData = preg_replace('/^.*?\?(.*)$/', '$2', $url)
-            $url = preg_replace('/^(.*?)\?(.*)$/', '$1', $url)
+            $urlData = preg_replace('/^.*?\?(.*)$/', '$2', $url);
+            $url = preg_replace('/^(.*?)\?(.*)$/', '$1', $url);
             $urlData = explode('&', $urlData);
             foreach($urlData as $key => $value) {
                 $data[$key] = $value;
