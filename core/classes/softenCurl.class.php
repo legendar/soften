@@ -84,12 +84,24 @@ class softenCurl {
         curl_setopt($this->curl, CURLOPT_COOKIEJAR, $this->cookieFile);
     }
     
-    private function _makeData($data) {
+    private function _makeData($data, $url = null) {
+        if($url !== null) {
+            $urlData = preg_replace('/^.*?\?(.*)$/', '$2', $url)
+            $url = preg_replace('/^(.*?)\?(.*)$/', '$1', $url)
+            $urlData = explode('&', $urlData);
+            foreach($urlData as $key => $value) {
+                $data[$key] = $value;
+            }
+        }
         $newData = Array();
         foreach($data as $key => $val){
             $newData[] = urlencode($key) . "=" . urlencode($val);
         }
-        return join("&", $newData);
+        $data = join("&", $newData);
+        if($url !== null) {
+            $data = $url . '?' . $data;
+        }
+        return $data;
     }
     
     private function _init() {
@@ -121,7 +133,8 @@ class softenCurl {
         return $this->_makeResult();        
     }
 
-    public function get($url) {
+    public function get($url, $data = array()) {
+        $url = $this->_makeData($data, $url);
         $this->curlUrl = $url;
         $this->referer = '';
         $this->setCookieFile('',$url,true);
