@@ -1,6 +1,20 @@
+var softenDefaultFormSubmitCallback = false;
 
 var softenDefaultFormCallback = function(form,name) {
-    form.submit();
+    if(softenDefaultFormSubmitCallback) {
+        new Ajax.Request(
+		    '{SITEURI}/forms/'+name+'/do/', 
+		    {
+                parameters : Form.serialize(form),
+                method: "post",
+                onComplete: function(xmlhttp) {
+                    softenDefaultFormSubmitCallback(form, name, xmlhttp);
+                }
+		    }
+	    );
+    } else {
+        form.submit();
+    }
 }
 
 var softenDefaultFormErrorCallback = function(form,name,xmlhttp) {
