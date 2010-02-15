@@ -19,6 +19,7 @@ class softenDbs {
         if(!isset($conf["port"])) $conf["port"] = "3306";
         if(!isset($conf["pref"])) $conf["pref"] = "";
         if(!isset($conf["autocommit"])) $conf["autocommit"] = false;
+        if(!isset($conf["client_flags"])) $conf["client_flags"] = false;
 
         if($conf["type"] == "mysql" && extension_loaded("mysqli")) $conf["type"] == "mysqli";
         
@@ -30,9 +31,21 @@ class softenDbs {
         $conf = $this->conf;
         
         if(!empty($conf["port"])) $conf["port"] = ':'.$conf["port"];
-        if(!empty($conf["pass"])) $conf["pass"] = ':'.$conf["pass"];
+        //if(!empty($conf["pass"])) $conf["pass"] = ':'.$conf["pass"];
         
-        $this->dsn = $conf["type"].'://'.$conf["user"].$conf["pass"].'@'.$conf["host"].$conf["port"].'/'.$conf["base"];
+        //$this->dsn = $conf["type"].'://'.$conf["user"].$conf["pass"].'@'.$conf["host"].$conf["port"].'/'.$conf["base"];
+        $this->dsn = array(
+            'phptype'  => $conf['type'],
+            //'dbsyntax' => false,
+            'username' => $conf['user'],
+            'password' => $conf['pass'],
+            //'protocol' => false,
+            'hostspec' => $conf['host'] . $conf['port'],
+            //'port'     => false,
+            //'socket'   => false,
+            'database' => $conf['base'],
+            'client_flags' => $conf['client_flags'],
+        );
         
         $this->db = &DB::connect($this->dsn, false);
         if(DB::isError($this->db)) $this->error($this->db,false);
