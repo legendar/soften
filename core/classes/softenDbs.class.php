@@ -21,7 +21,9 @@ class softenDbs {
         if(!isset($conf["autocommit"])) $conf["autocommit"] = false;
         if(!isset($conf["client_flags"])) $conf["client_flags"] = false;
 
-        if($conf["type"] == "mysql" && extension_loaded("mysqli")) $conf["type"] == "mysqli";
+        if($conf["type"] == "mysql" && extension_loaded("mysqli")) {
+            $conf["type"] = "mysqli";
+        }
         
         $this->conf = $conf;
 
@@ -40,7 +42,8 @@ class softenDbs {
             'username' => $conf['user'],
             'password' => $conf['pass'],
             //'protocol' => false,
-            'hostspec' => $conf['host'] . $conf['port'],
+            /* we get stupid error with connection to mysqli. connection to 'localhost' works? but connection to 'localhost:3396' doesn't %) */
+            'hostspec' => $conf['host'] . (($conf['type'] == 'mysqli' && $conf['port'] == ':3306') ? '' : $conf['port']),
             //'port'     => false,
             //'socket'   => false,
             'database' => $conf['base'],
