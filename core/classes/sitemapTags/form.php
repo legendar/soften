@@ -33,7 +33,7 @@ class softenSitemapTagForm extends softenSitemapTagSitemap {
             $secure = FORMS_DEFAULT_SECURE;
         }
         $secure = explode('|', $secure);
-        if(checkUserLevel($secure[0], $secure[1], $secure[2])) {
+        if(checkUserLevel($secure[0],  isset($secure[1]) ? $secure[1] : 'up', isset($secure[2]) && $secure[2] == 'true' ? true : false)) {
             return SITEMAP_IN_PROCESS;
         } else {
             return SITEMAP_BREAK_TAG;
