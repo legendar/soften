@@ -32,7 +32,7 @@ class softenDbs {
     function connect() {
         $conf = $this->conf;
         
-        if(!empty($conf["port"])) $conf["port"] = ':'.$conf["port"];
+        //if(!empty($conf["port"])) $conf["port"] = ':'.$conf["port"];
         //if(!empty($conf["pass"])) $conf["pass"] = ':'.$conf["pass"];
         
         //$this->dsn = $conf["type"].'://'.$conf["user"].$conf["pass"].'@'.$conf["host"].$conf["port"].'/'.$conf["base"];
@@ -43,8 +43,9 @@ class softenDbs {
             'password' => $conf['pass'],
             //'protocol' => false,
             /* we get stupid error with connection to mysqli. connection to 'localhost' works? but connection to 'localhost:3396' doesn't %) */
-            'hostspec' => $conf['host'] . (($conf['type'] == 'mysqli' && $conf['port'] == ':3306') ? '' : $conf['port']),
-            //'port'     => false,
+            //'hostspec' => $conf['host'] . (($conf['type'] == 'mysqli' && $conf['port'] == ':3306') ? '' : $conf['port']),
+            'hostspec' => $conf['host'],
+            'port'     => $conf['port'],
             //'socket'   => false,
             'database' => $conf['base'],
             'client_flags' => $conf['client_flags'],
