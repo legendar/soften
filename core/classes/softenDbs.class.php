@@ -4,9 +4,12 @@ class softenDbs {
     private $db;
     private $conf;
     private $dsn;
+    private $order;
+    private $data;
     
     function __construct() {
         require_once('DB.php');
+        $this->emptyData();
     }
     
     function setConf($conf) {
@@ -65,7 +68,56 @@ class softenDbs {
         error_log($obj->getMessage().": ".$obj->getDebugInfo(), 0);
         die("<pre>".$obj->getMessage()."\n".$obj->getDebugInfo()."</pre>");
     }
-    
+
+    function emptyData() {
+        $this->order = array();
+        $this->data = array();
+    }
+
+    function data($name, $str) {
+        $this->order[] = $name;
+        $this->data[$name] = $str;
+    }
+
+    function buildQuery() {
+        $query = '';
+        foreach($this->order as $v) {
+            $query = $query . ' ' . $v . ' ' . $this->data[$v];
+        }
+        return trim($query);
+    }
+
+    function select($what) {
+        $this->data('select', is_array($what) ? implode(', ', $what) : $what);
+        return $this;
+    }
+
+    function from($w) {
+        $this->data('from', is_array($w) ? implode(', ', $w) : $w);
+        return $this;
+    }
+
+    function where($what, $d = 'AND') {
+        if(!is_array($what)) {
+            $this->data('where', $what);
+        } else {
+            $where = array();
+            foreach($what as $k => $v) {
+                $where[] = (is_int($k) ? '' : ($k . ' = ')) . $v;
+            }
+            $this->data('where', implode(' ' . $d . ' ', $where));
+        }
+        return $this;
+    }
+
+    function one() {
+        return $this->exec("getOne", array($this->buildQuery()));
+    }
+
+    function all() {
+        return $this->exec("getAll", array($this->buildQuery()));
+    }
+
     function pref($args) {
         $retArr = true;
         if(!is_array($args)) {
