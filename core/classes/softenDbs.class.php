@@ -84,6 +84,7 @@ class softenDbs {
         foreach($this->order as $v) {
             $query = $query . ' ' . $v . ' ' . $this->data[$v];
         }
+        $this->emptyData();
         return trim($query);
     }
 
@@ -110,12 +111,25 @@ class softenDbs {
         return $this;
     }
 
+    function limit($n) {
+        $this->data('limit', $n);
+        return $this;
+    }
+
     function one() {
         return $this->exec("getOne", array($this->buildQuery()));
     }
 
     function all() {
         return $this->exec("getAll", array($this->buildQuery()));
+    }
+
+    function row() {
+        return $this->exec("getRow", array($this->buildQuery()));
+    }
+
+    function col() {
+        return $this->exec("getCol", array($this->buildQuery()));
     }
 
     function pref($args) {
