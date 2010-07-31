@@ -8,11 +8,12 @@ class softenSitemapTagFile extends softenSitemapTagSitemap {
         if(!$var || empty($var))$var = null;
         if(!$dir || empty($dir))$dir = null;
 
+        $func = 'file_get_contents';
         switch($dir) {
             case "css": $dir = CSS_DIR . '/'; break;
             case "img": $dir = IMG_DIR . '/'; break;
             case "js": $dir = JS_DIR . '/'; break;
-            case "data": $dir = DATA_DIR . '/'; break;
+            case "data": $dir = DATA_DIR . '/'; $func = 'include'; break;
             default: $dir = ""; break;
         }
 
@@ -31,7 +32,7 @@ class softenSitemapTagFile extends softenSitemapTagSitemap {
         
         foreach ($files as $file) {
             $v = ((strpos($var, '$')===0)?'':'$') . str_replace("[]", "['{$file}']", $var);
-            eval("{$v} = file_get_contents('{$file}');");
+            eval("{$v} = {$func}('{$file}');");
         }
         
         $var = str_replace("[]","",$var);
