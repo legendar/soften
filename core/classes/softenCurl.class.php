@@ -71,6 +71,7 @@ class softenCurl {
     }
     
     private function _makeResult() {
+//    dmp($this);
         if($this->options[CURLOPT_HEADER] == true) {
             return $this->_explodeResult($this->curlResult);
         } else {
@@ -85,12 +86,15 @@ class softenCurl {
     }
     
     private function _makeData($data, $url = null) {
+        if(!is_array($data)) return ($url ? $url : '') . $data;
         if($url !== null) {
             $urlData = preg_replace('/^.*?\?(.*)$/', '$2', $url);
             $url = preg_replace('/^(.*?)\?(.*)$/', '$1', $url);
-            $urlData = explode('&', $urlData);
-            foreach($urlData as $key => $value) {
-                $data[$key] = $value;
+            if($urlData != $url) {
+                $urlData = explode('&', $urlData);
+                foreach($urlData as $key => $value) {
+                    $data[$key] = $value;
+                }
             }
         }
         $newData = Array();
@@ -130,7 +134,7 @@ class softenCurl {
         
         $this->_init();
         
-        return $this->_makeResult();        
+        return $this->_makeResult();
     }
 
     public function get($url, $data = array()) {
@@ -141,7 +145,7 @@ class softenCurl {
         $this->setOpt(CURLOPT_COOKIESESSION, true);
         $this->setOpt(CURLOPT_URL, $url);
         $this->_init();
-        return $this->_makeResult();        
+        return $this->_makeResult();
     }
 
 }
