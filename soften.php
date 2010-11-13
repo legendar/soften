@@ -3,7 +3,7 @@
 /*************************************************\
 |*        soften php engine index file           *|
 |*************************************************|
-|* Copyright (C) 2008 legendar (legendar.org.ua) *|
+|*  Copyright (C) 2010 legendar (legendar.info)  *|
 \*************************************************/
 
 /* get start time */
