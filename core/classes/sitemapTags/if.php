@@ -9,7 +9,6 @@ class softenSitemapTagIf extends softenSitemapTagSitemap {
             clDebug("sitemapTagIf", "skip", "no params");
             return SITEMAP_SKIP_TAG;
         } else if(empty($src)) {
-            error_log('return '.$condition.';');
             if(eval('return '.$condition.';')) {
                 clDebug("sitemapTagIf", "in process", Array("condition"=>$condition));
                 return SITEMAP_IN_PROCESS;
