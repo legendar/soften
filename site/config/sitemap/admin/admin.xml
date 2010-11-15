@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <sitemap>
-    <match pattern="/admiin/(home/)?">
+    <match pattern="/admin/(home/)?">
         <template var="content" src="admin/home.tpl.php" />
         <block name="endLoadPage" />
     </match>
