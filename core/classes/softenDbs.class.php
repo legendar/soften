@@ -65,8 +65,9 @@ class softenDbs {
     
     function error($obj,$rollback = true) {
         if(is_object($this->db) && $rollback) $this->db->rollback();
-        error_log($obj->getMessage().": ".$obj->getDebugInfo(), 0);
-        die("<pre>".$obj->getMessage()."\n".$obj->getDebugInfo()."</pre>");
+        //error_log($obj->getMessage().": ".$obj->getDebugInfo(), 0);
+        //die("<pre>".$obj->getMessage()."\n".$obj->getDebugInfo()."</pre>");
+        throw new Exception($obj->getMessage()."\n".$obj->getDebugInfo());
     }
 
     function emptyData() {
