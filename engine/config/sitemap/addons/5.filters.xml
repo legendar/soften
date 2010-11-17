@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <sitemap>
 
+    <dir var="{ENGINEPATH}" />
     <data src="filters/*.php"/>
 
     <filter name="setTags" />
-    
+
     <filter name="insertMessages" />
-    
+
     <filter name="formSetAction" />
     <filter name="setURLs" />
-    
 
 </sitemap>
