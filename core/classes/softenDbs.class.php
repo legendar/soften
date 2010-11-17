@@ -61,6 +61,9 @@ class softenDbs {
         
         //Column data indexed by column names
         $this->db->setFetchMode(DB_FETCHMODE_ASSOC);    
+
+        // autocommit set
+        $this->autoCommit($conf["autocommit"]);
     }
     
     function error($obj,$rollback = true) {
