@@ -14,7 +14,7 @@ class softenSitemapTagFile extends softenSitemapTagSitemap {
             case "img": $dir = IMG_DIR . '/'; break;
             case "js": $dir = JS_DIR . '/'; break;
             case "data": $dir = DATA_DIR . '/'; $func = 'include'; break;
-            default: $dir = ""; break;
+            default: $dir = ""; $func = 'include'; break;
         }
 
         clDebug("sitemapTagFile", "in process", Array("src"=>$src,"var"=>$var,"dir"=>$dir));
