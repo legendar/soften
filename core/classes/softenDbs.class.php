@@ -21,7 +21,7 @@ class softenDbs {
         if(!isset($conf["base"])) $conf["base"] = "";
         if(!isset($conf["port"])) $conf["port"] = "3306";
         if(!isset($conf["pref"])) $conf["pref"] = "";
-        if(!isset($conf["autocommit"])) $conf["autocommit"] = false;
+        if(!isset($conf["autocommit"])) $conf["autocommit"] = true;
         if(!isset($conf["client_flags"])) $conf["client_flags"] = false;
 
         if($conf["type"] == "mysql" && extension_loaded("mysqli")) {
