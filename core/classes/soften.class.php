@@ -24,7 +24,7 @@ class soften {
         $this->setURLs(dirname($_SERVER['SCRIPT_FILENAME']));
         
         $webreq = true;
-        if(count($GLOBALS["argv"]) > 1 && in_array(trim($GLOBALS["argv"][1]), array('dump', 'restore'))) $webreq = false;
+        if(isset($GLOBALS["argv"]) && count($GLOBALS["argv"]) > 1 && in_array(trim($GLOBALS["argv"][1]), array('dump', 'restore'))) $webreq = false;
 
         if(substr($_REQUEST['uri'], -1, 1) != '/' && $webreq) {
             $url = str_replace($_REQUEST['uri'], $_REQUEST['uri'] . '/', $_SERVER['REQUEST_URI']);
