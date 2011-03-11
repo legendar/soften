@@ -51,6 +51,10 @@ class softenLog {
     public function warning($message = '', $type = null) {
         $this->set($message, $this->getType($type), PEAR_LOG_WARNING);
     }
+
+    public function info($message = '', $type = null) {
+        $this->set($message, $this->getType($type), PEAR_LOG_INFO);
+    }
     
 }
 
