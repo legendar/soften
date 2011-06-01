@@ -40,7 +40,7 @@
         soy = soy.replace('{template}', '{template .' + info.name + '}');
         // ensure that we have template head
         if(!soy.match(new RegExp('^\\s*\\/\\*\\*', 'gi'))) {
-            soy = '/**\n * ' + info.name + ' template\n */' + soy;
+            soy = '/**\n * ' + info.name + ' template\n */\n' + soy;
         }
         // add namespace
         soy = '{namespace ' + info.namespace + '}\n\n' + soy;
