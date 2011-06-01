@@ -34,8 +34,10 @@
         'headers',
         // stop route
         'end',
+        // include another router file,
+        'include',
         // sub-route
-        'route'
+        'route',
     ];
 
     // for speed up
