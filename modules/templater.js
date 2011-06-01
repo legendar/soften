@@ -19,6 +19,7 @@
         info.name = chunks.pop();
         info.namespace = chunks.join('.');
         info.fullname = info.namespace + '.' + info.name;
+        info.compiled = soften.utils.exists(info.jsfile);
         return info;
     }
 
@@ -67,7 +68,7 @@
             callback(eval(info.fullname)(data));
         }
 
-        if(!soften.utils.exists(info.jsfile)) {
+        if(!info.compiled) {
             this.compile(path, callback_);
         } else {
             callback_();
