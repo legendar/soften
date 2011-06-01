@@ -1,0 +1,3 @@
+[submodule "lib/node-postgres"]
+	path = lib/node-postgres
+	url = git://github.com/brianc/node-postgres.git
