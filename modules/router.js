@@ -108,6 +108,7 @@
         context.router.index++;
 
         if(!state && context.router.index == length) {
+            context.router.macth && context.router.matches.pop();
             state = NEXT;
         }
 
@@ -145,13 +146,12 @@
             // level down
             context.router.routes.push(context.router.route);
             context.router.route = route.slice();
-            context.router.matches.push([]);
             nextItem(context);
         },
 
         match: function(pattern, context) {
             var matches = (new RegExp('^' + pattern + '$', 'gi')).exec(context.router.path);
-            matches && (context.router.matches[context.router.matches.length - 1] = matches);
+            matches && (context.router.matches.push(matches));
             next(context, matches ? null : SKIP); // for tests
         },
 
@@ -205,9 +205,20 @@
         },
 
         vars: function(names, context) {
-            context.router.matches[context.router.matches.length - 1].forEach(function(match, i){
-                i > 0 && (context[names[i - 1]] = match);
+            var vars = {}, mx, my, matches;
+            names.forEach(function(name, i) {
+                name = name.split(':');
+                mx = name.length - 1;
+                my = name.pop();
+                if(mx == 0) {
+                    mx = 1;
+                    name = my;
+                    my = i+1;
+                }
+                matches = context.router.matches[context.router.matches.length - mx];
+                vars[name] = matches[my];
             });
+            context.vars = vars;
             next(context);
         },
 
