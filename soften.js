@@ -35,7 +35,7 @@
         var path = require('path');
         // load defaults
         soften.options({
-            modules: ['db', 'router', 'tpl', 'cache', 'utils', 'templater'],
+            modules: ['db', 'router', 'templater'/*, 'cache'*/, 'utils', 'templater'],
             'core-path': path.normalize(__dirname),
             'site-path': path.normalize(path.dirname(module.parent.filename)),
             'cache-path': '/cache'
