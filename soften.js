@@ -41,6 +41,8 @@
             'cache-path': '/cache'
         }, true);
 
+        require.paths.unshift(soften.path() + '/modules');
+
         // load modules
         soften.modules = {};
         soften.option('modules').forEach(function(name){
