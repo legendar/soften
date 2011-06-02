@@ -81,7 +81,61 @@
 
     DB.prototype.query = function(query, values) {
         // prepare query
-        this.query = query;
+        if(values) {
+            if(!(values instanceof Array)) {
+                values = [values];
+            }
+
+            /*
+                %d
+                %i
+                %s
+                %and
+                %or
+            */
+            var placeholders = {
+
+                f: parseFloat,
+                i: parseInt,
+                s: function(value) {
+                    return '\'' + value.replace('\'', '\\\'') + '\'';
+                },
+                // TODO
+                // how to usage??
+                // SELECT * FROM tablename WHERE value in (%and)
+                /*and: function(value) {
+                    //
+                    var ret = 
+                    value.forEach(function(v){
+                        if(v instanceof Array) {
+                            
+                        }
+                    });
+                },
+                or: function(value) {
+                    //
+                }*/
+
+            };
+
+            var regexp = new RegExp('(^.*?)%([a-z]+|%)', 'gi'), match, q = '';
+            while(values.length > 0 && (match = regexp.exec(query))) {
+                query = query.replace(match[0], '');
+                q += match[1];
+
+                if(match[2] == '%') {
+                    q += '%';
+                    continue;
+                } else if(placeholders[match[2]] == undefined) {
+                    q += '%' + match[2];
+                } else {
+                    q += placeholders[match[2]](values.shift());
+                }
+            }
+            this.query = q;
+        } else {
+            this.query = query;
+        }
         return this;
     };
 
@@ -109,3 +163,5 @@
         console.log(result);
 
     });*/
+
+    //console.log(db().query('SELECT id FROM list WHERE value = %s AND id = %i AND', ['te', '223s', '']).query);
