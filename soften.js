@@ -50,7 +50,11 @@
         });
     };
 
-
+    soften.require = function(name) {
+        soften.modules[name] ||
+            (soften.modules[name] =
+                require(soften.option('core-path') + '/modules/' + name + '.js'));
+    };
 /*
     soften.exception = {
         invoke: function(e, chunk) {

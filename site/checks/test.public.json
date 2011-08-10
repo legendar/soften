@@ -1,0 +1,8 @@
+{
+    'id': 'int',
+    //'email': 'email', // try to find by ID or return unknown error
+    'pid': ['int', function(id) {
+        return db('SELECT count(*) FROM products WHERE id = ' + intval(id))->one() > 0;
+    }]
+
+}

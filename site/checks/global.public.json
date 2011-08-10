@@ -1,0 +1,4 @@
+
+    soften.types.add('email', function(email) {
+        return new RegExp('....');
+    })

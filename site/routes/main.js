@@ -1,5 +1,5 @@
 
-    this.route = [
+    /*this.route = [
 
         {action: 'test'},
 
@@ -10,4 +10,21 @@
             {template: 'main'}
 
         ]}
-    ];
+    ];*/
+
+    //console.log(this.include);
+
+
+    this.action('test');
+    this.check('test');
+
+    //this.include('static.js');
+
+    this.match('/', function() {
+
+        this.template('main');
+
+        this.end();
+
+    });
+

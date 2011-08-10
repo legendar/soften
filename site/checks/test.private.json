@@ -1,0 +1,5 @@
+{
+    'pid': ['int', function(id) {
+        return db('SELECT count(*) FROM products WHERE id = ' + intval(id))->one() > 0;
+    }]
+}

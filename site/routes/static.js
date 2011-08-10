@@ -1,6 +1,6 @@
 
 
-    this.route = [
+    /*this.route = [
 
         {match: '/static/tpl/(.*).js', route: [
 
@@ -12,4 +12,16 @@
 
         ]}
 
-    ];
+    ];*/
+
+    this.match('/static/tpl/(.*).js', function() {
+
+        this.headers({
+            'content-type': 'text/javascript'
+        });
+
+        this.action('static/tpl', {vars: ['name']});
+
+        this.end();
+
+    });

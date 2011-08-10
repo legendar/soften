@@ -1,4 +1,6 @@
 
+    soften.require('http');
+
     soften.options({
 
         'router-path': '/routes',
@@ -255,6 +257,116 @@
         }
     };
 
+
+    var cache = {};
+
+    var Context = soften.modules.http.Context;
+
+    Context.prototype.include = function(file) {
+
+        file = soften.path('router') + '/' + file;
+
+        // TODO use XML instead JS router
+        //require('vm').runInThisContext(cache[file] || (cache[file] = soften.utils.readFile(file)), file);
+        eval(cache[file] || (cache[file] = soften.utils.readFile(file)), file);
+        //require('vm').runInNewContext(cache[file] || (cache[file] = soften.utils.readFile(file)), this, file);
+
+    };
+
+    Context.prototype.headers = function(headers) {
+        for(i in headers) {
+            this.router.headers[i] = headers[i];
+        }
+    };
+
+    Context.prototype.match = function(pattern, callback) {
+        // TODO
+        
+        /*
+        var matches = (new RegExp('^' + pattern + '$', 'gi')).exec(this.router.path);
+        matches && (this.router.matches.push(matches));
+        //next(context, matches ? null : SKIP); // for tests*/
+        callback.call(this);
+        // TODO clear matches
+    };
+
+    Context.prototype.action = function(name) {
+        var action = require(soften.path('actions') + '/' + name + '.js');
+        action.process.apply(this);
+    };
+
+    Context.prototype.data = function(id, data) {
+
+        // TODO setters/getters and proxy (harmony proxy isn't available in V8 now)
+
+        if(arguments.length == 1) {
+            // getter
+            return this.router.data[id];
+        }
+
+        // setter
+        this.router.data[id] = data;
+
+        (this.router.watches[id] || []).forEach(function(watcher){
+
+            watcher.ids.splice(watcher.ids.indexOf(id), 1);
+
+            watcher.ids.length || watcher.callback();
+
+        });
+
+        delete this.router.watches[id];
+
+    };
+
+    Context.prototype.watcher = function(ids, callback) {
+
+        var that = this, watcher = {callback: callback};
+
+        watcher.ids = ids.filter(function(id) {
+            if(that.router.data[id]) return false;
+            that.router.watches[id] || (that.router.watches[id] = []);
+            that.router.watches[id].push(watcher);
+            return true;
+        });
+
+        watcher.ids.length || callback();
+    };
+
+    Context.prototype.template = function(name, section) {
+
+        var that = this;
+
+        this.watcher(soften.modules.templater.info(name).watches.slice(0), function(){
+            soften.modules.templater.build(name, that.router.data, function(tpl) {
+                that.data((section || 'template').toUpperCase(), tpl);
+            });
+        });
+
+    };
+
+    Context.prototype.end = function(status) {
+
+        var that = this;
+
+        this.watcher(['TEMPLATE'], function() {
+
+            // TODO move to http module
+            if(!that.router.headers['content-type']) {
+                that.router.headers['content-type'] = 'text/html; charset=utf-8'
+            }
+
+            that.response.writeHead(status || 200, that.headers);
+
+            that.response.write(that.data('TEMPLATE'));
+            that.response.end();
+            return;
+        });
+
+        throw END;
+
+    }
+
     soften.events.on('http-request', function(context){
         // prepare context
         context.router = {
@@ -263,20 +375,19 @@
             item: null,
             index: -1,
             matches: [],
-            path: context.location.pathname
+            watches: {},
+            path: context.location.pathname,
+            headers: {},
+            data: {TEMPLATE:''},
+            watches: []
         };
-
-        context.headers = {};
-        context.data = {sections: {}};
-        context.template = '';
 
         console.log('=============================');
         console.log(context.location.href);
 
-        context.next = function(context) {
-            next(context);
-        };
-
-        items.include(soften.option('router-file'), context);
+        try {
+            context.include(soften.option('router-file'));
+        } catch(e) {
+            if(e !== END) throw e;
+        }
     });
-

@@ -18,7 +18,7 @@
 
             dir = dir + '/' + chunk;
 
-            console.log(dir);
+            //console.log(dir);
             path.existsSync(dir) || fs.mkdirSync(dir, 0777);
 
         });
