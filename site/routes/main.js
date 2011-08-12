@@ -16,15 +16,24 @@
 
 
     this.action('test');
-    this.check('test');
 
     //this.include('static.js');
 
     this.match('/', function() {
+        /*request: {
+            'pid': 'int',
+            ''
+        }
+        match();
+            secure();
+            method();
+            check();
+        action();
+        tpl();
+        end();*/
 
         this.template('main');
 
         this.end();
 
     });
-
