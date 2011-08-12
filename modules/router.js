@@ -7,6 +7,7 @@
         'router-file': 'main.js',
         'actions-path': '/actions',
         'templates-path': '/templates'
+        'requests-path': '/checks' // TODO
 
     }, true);
 
@@ -264,9 +265,17 @@
 
     Context.prototype.include = function(file) {
 
+        // TO simple usage
+        var headers = this.headers,
+            match = this.match,
+            template = this.template,
+            action = this.action,
+            include = this.include,
+            end = this.end;
+
         file = soften.path('router') + '/' + file;
 
-        // TODO use XML instead JS router
+        // TODO we can use XML instead JS router
         //require('vm').runInThisContext(cache[file] || (cache[file] = soften.utils.readFile(file)), file);
         eval(cache[file] || (cache[file] = soften.utils.readFile(file)), file);
         //require('vm').runInNewContext(cache[file] || (cache[file] = soften.utils.readFile(file)), this, file);
@@ -279,15 +288,60 @@
         }
     };
 
-    Context.prototype.match = function(pattern, callback) {
-        // TODO
-        
-        /*
-        var matches = (new RegExp('^' + pattern + '$', 'gi')).exec(this.router.path);
-        matches && (this.router.matches.push(matches));
-        //next(context, matches ? null : SKIP); // for tests*/
+    Context.prototype.match = function(options, callback) {
+
+        if(typeof options == 'string') {
+            options = {uri: options}
+        }
+
+        // secure
+        // method
+        // uri
+        // request
+
+        if(options.secure !== undefined) {
+
+            // TODO
+
+        }
+
+        if(options.method !== undefined) {
+
+            // TODO
+
+        }
+
+        if(options.uri !== undefined) {
+
+            // TODO
+            /*
+            var matches = (new RegExp('^' + pattern + '$', 'gi')).exec(this.router.path);
+            matches && (this.router.matches.push(matches));
+            //next(context, matches ? null : SKIP); // for tests*/
+            // TODO clear matches
+
+        }
+
+        if(options.request !== undefined) {
+
+            // TODO
+            if(typeof options.request == 'string') {
+                // load json
+                options.request = JSON.parse(soften.utils.readFile(soften.path('requests') + '/' + options.request + '.json'));
+            }
+
+            // TODO what about assync requests data
+            for(var x in options.requests) {
+                // TODO add global types check
+                // TODO
+                /*if(!options.requests[x]()) {
+                    return false;
+                }*/
+            }
+
+        }
+
         callback.call(this);
-        // TODO clear matches
     };
 
     Context.prototype.action = function(name) {
