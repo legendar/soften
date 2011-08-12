@@ -55,3 +55,9 @@
         });
 
     }
+
+    this.mixin = function(target, source) {
+        for (var x in source) {
+            target[x] = source[x];
+        }
+    }
