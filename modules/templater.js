@@ -75,6 +75,7 @@
             //callback && callback();
             //soften.events.once('template-compiled-' + path, callback_);
             soften.events.emit('template-compiled-' + path);
+            info.compiled = true;
         });
 
     };
