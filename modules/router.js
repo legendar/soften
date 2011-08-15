@@ -314,10 +314,10 @@
         if(options.uri !== undefined) {
 
             // TODO
-            /*
-            var matches = (new RegExp('^' + pattern + '$', 'gi')).exec(this.router.path);
-            matches && (this.router.matches.push(matches));
+            var matches = (new RegExp('^' + options.uri + '$', 'gi')).exec(this.router.path);
+            //matches && (this.router.matches.push(matches));
             //next(context, matches ? null : SKIP); // for tests*/
+            if(!matches) return;
             // TODO clear matches
 
         }
