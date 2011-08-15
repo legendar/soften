@@ -6,7 +6,7 @@
         'router-path': '/routes',
         'router-file': 'main.js',
         'actions-path': '/actions',
-        'templates-path': '/templates'
+        'templates-path': '/templates',
         'requests-path': '/checks' // TODO
 
     }, true);
